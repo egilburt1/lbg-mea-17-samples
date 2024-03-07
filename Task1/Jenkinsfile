@@ -5,7 +5,7 @@ pipeline {
             steps {
                 sh '''
                 docker build -t eugil/flask-app ./Task1
-                docker build -f Dockerfile_nginx -t eugil/custom-nginx ./Task1
+                docker build -f ./Task1/Dockerfile_nginx -t eugil/custom-nginx ./Task1
                 docker push eugil/flask-app
                 docker push eugil/custom-nginx
                 '''

@@ -1,8 +1,31 @@
 pipeline {
     agent any
-    env {}
-    stages('build') {
-        echo 'Hello world'
+    env {
+        DOCKER_USER = "eugil"
+        MYSQL_ROOT_PASSWORD = "password123"
     }
-    post {}
+    stages {
+        stage('Build') {
+            steps {
+                sh "docker build -t $DOCKER_USER/task2-db db"
+                sh "docker build -t $DOCKER_USER/task2-app flask-app"
+                sh "docker push $DOCKER_USER/task2-db"
+                sh "docker push $DOCKER_USER/tsk2-app"
+            }
+        }
+        stage('Test') {
+            steps {
+                echo "Testing"
+                sh "sleep 5"
+                echo "Passed"
+            }
+        }
+        stage('Deploy') {
+            steps {
+                echo "Deploying"
+                sh "sleep 5"
+                echo "Deployed"
+            }
+        }
+    }
 }

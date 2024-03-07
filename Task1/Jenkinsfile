@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+    stages {
+        step('Build') {
+            sh '''
+            docker build -t eugil/flask-app /Task1
+            docker build -f Dockerfile_nginx -t eugil/custom-nginx /Task1
+            '''
+        }
+        step('Test') {
+            echo "Testing"
+        }
+        step('Deploy') {
+
+        }
+    }
+}

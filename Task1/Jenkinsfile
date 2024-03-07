@@ -22,8 +22,8 @@ pipeline {
                 docker stop \$(docker ps -q) || sleep 1
                 docker rm \$(docker ps -aq) || sleep 1
                 docker network inspect task1 && sleep 1 || docker network create task1
-                docker run -d --network task1 --name custom-nginx eugil/custom-nginx
                 docker run -d --network task1 --name flask-app eugil/flask-app
+                docker run -d --network task1 --name custom-nginx eugil/custom-nginx
                 '''
             }
         }

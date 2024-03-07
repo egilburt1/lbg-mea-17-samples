@@ -5,7 +5,9 @@ pipeline {
             steps {
                 sh '''
                 docker build -t eugil/flask-app ./Task1
-                docker build -f Dockerfile_nginx -t eugil/custom-nginx /Task1
+                docker build -f Dockerfile_nginx -t eugil/custom-nginx ./Task1
+                docker push eugil/flask-app
+                docker push eugil/custom-nginx
                 '''
             }
         }
@@ -16,7 +18,13 @@ pipeline {
         }
         stage('Deploy') {
             steps {
-                echo "Deploying"
+                sh '''
+                docker stop \$(docker ps -q) || sleep 1
+                docker rm \$(docker ps -aq) || sleep 1
+                docker network inspect task1 && sleep 1 || docker network create task1
+                docker run -d --network task1 --name flask-app eugil/flask-app
+                docker run -d --network task1 --name custom-nginx eugil/custom-nginx
+                '''
             }
         }
     }

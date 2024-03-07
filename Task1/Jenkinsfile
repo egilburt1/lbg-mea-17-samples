@@ -2,7 +2,7 @@ pipeline {
     agent any
     stages {
         stage('Build') {
-            step {
+            steps {
                 sh '''
                 docker build -t eugil/flask-app /Task1
                 docker build -f Dockerfile_nginx -t eugil/custom-nginx /Task1
@@ -10,12 +10,12 @@ pipeline {
             }
         }
         stage('Test') {
-            step {
+            steps {
                 echo "Testing"
             }
         }
         stage('Deploy') {
-            step {
+            steps {
                 echo "Deploying"
             }
         }
